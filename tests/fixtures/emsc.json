@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "count": 3
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.2533,
+          38.4087,
+          -7.0
+        ]
+      },
+      "id": "20260930_0000169",
+      "properties": {
+        "source_id": "2067555",
+        "source_catalog": "EMSC-RTS",
+        "lastupdate": "2026-09-30T14:20:46.673485Z",
+        "time": "2026-09-30T14:08:58.0Z",
+        "flynn_region": "EASTERN TURKEY",
+        "lat": 38.4087,
+        "lon": 39.2533,
+        "depth": 7.0,
+        "evtype": "ke",
+        "auth": "AFAD",
+        "mag": 0.7,
+        "magtype": "ml",
+        "unid": "20260930_0000169"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.11,
+          19.29,
+          -10.0
+        ]
+      },
+      "id": "20260930_0000166",
+      "properties": {
+        "source_id": "2067552",
+        "source_catalog": "EMSC-RTS",
+        "lastupdate": "2026-09-30T14:08:35.705877Z",
+        "time": "2026-09-30T14:02:12.0Z",
+        "flynn_region": "DOMINICAN REPUBLIC",
+        "lat": 19.29,
+        "lon": -70.11,
+        "depth": 10.0,
+        "evtype": "ke",
+        "auth": "UASD",
+        "mag": 3.1,
+        "magtype": "m",
+        "unid": "20260930_0000166"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.633,
+          40.768,
+          -15.0
+        ]
+      },
+      "id": "20260930_0000156",
+      "properties": {
+        "source_id": "2067541",
+        "source_catalog": "EMSC-RTS",
+        "lastupdate": "2026-09-30T14:12:24.949552Z",
+        "time": "2026-09-30T13:59:31.6Z",
+        "flynn_region": "ALBANIA",
+        "lat": 40.768,
+        "lon": 20.633,
+        "depth": 15.0,
+        "evtype": "ke",
+        "auth": "IGEO",
+        "mag": 2.4,
+        "magtype": "ml",
+        "unid": "20260930_0000156"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+name: agentbench-quakewatch-release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install '.[dev]'
+      - run: .venv/bin/python -m build
+      - run: docker build -t agentbench-quakewatch-v2-01-b:${GITHUB_REF_NAME} .
+      - run: docker run --rm --name agentbench-quakewatch-release-smoke agentbench-quakewatch-v2-01-b:${GITHUB_REF_NAME} --version
+      - name: Publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.tar.gz dist/*.whl --title "agentbench-quakewatch $GITHUB_REF_NAME" --generate-notes

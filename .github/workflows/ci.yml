@@ -1,0 +1,44 @@
+name: agentbench-quakewatch-ci
+on:
+  push:
+    branches: [main, feature/compare-cmd]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  unit:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    env:
+      PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install '.[dev]'
+      - run: .venv/bin/ruff check . && .venv/bin/ruff format --check .
+      - run: .venv/bin/mypy --strict src
+      - run: .venv/bin/pytest -m 'not integration' --cov=quakewatch --cov-report=xml --cov-report=term-missing
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agentbench-coverage-${{ matrix.python }}
+          path: coverage.xml
+  integration:
+    name: Live APIs (Python 3.12)
+    runs-on: ubuntu-latest
+    env:
+      PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install '.[dev]'
+      - run: .venv/bin/pytest -m integration -v

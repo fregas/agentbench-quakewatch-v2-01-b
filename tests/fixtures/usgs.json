@@ -1,0 +1,141 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated": 1790778515000,
+    "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
+    "title": "USGS All Earthquakes, Past Day",
+    "status": 200,
+    "api": "2.7.0",
+    "count": 208
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 0.5,
+        "place": "61 km ENE of Pedro Bay, Alaska",
+        "time": 1790778034053,
+        "updated": 1790778083900,
+        "tz": null,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026tjmqti",
+        "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/aka2026tjmqti.geojson",
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "automatic",
+        "tsunami": 0,
+        "sig": 4,
+        "net": "ak",
+        "code": "a2026tjmqti",
+        "ids": ",aka2026tjmqti,",
+        "sources": ",ak,",
+        "types": ",origin,phase-data,",
+        "nst": 6,
+        "dmin": 0,
+        "rms": 0.1,
+        "gap": 114,
+        "magType": "ml",
+        "type": "earthquake",
+        "title": "M 0.5 - 61 km ENE of Pedro Bay, Alaska"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -153.095,
+          60.01,
+          5
+        ]
+      },
+      "id": "aka2026tjmqti"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 1.4,
+        "place": "77 km W of Karluk, Alaska",
+        "time": 1790777963179,
+        "updated": 1790778024513,
+        "tz": null,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026tjmpuo",
+        "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/aka2026tjmpuo.geojson",
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "automatic",
+        "tsunami": 0,
+        "sig": 30,
+        "net": "ak",
+        "code": "a2026tjmpuo",
+        "ids": ",aka2026tjmpuo,",
+        "sources": ",ak,",
+        "types": ",origin,phase-data,",
+        "nst": 9,
+        "dmin": 0.3,
+        "rms": 0.3,
+        "gap": 244,
+        "magType": "ml",
+        "type": "earthquake",
+        "title": "M 1.4 - 77 km W of Karluk, Alaska"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -155.748,
+          57.627,
+          97.6
+        ]
+      },
+      "id": "aka2026tjmpuo"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "mag": 0.78,
+        "place": "22 km ESE of Anza, CA",
+        "time": 1790777334150,
+        "updated": 1790777543705,
+        "tz": null,
+        "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci41340999",
+        "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci41340999.geojson",
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "automatic",
+        "tsunami": 0,
+        "sig": 9,
+        "net": "ci",
+        "code": "41340999",
+        "ids": ",ci41340999,",
+        "sources": ",ci,",
+        "types": ",nearby-cities,origin,phase-data,",
+        "nst": 34,
+        "dmin": 0.122,
+        "rms": 0.17,
+        "gap": 53,
+        "magType": "ml",
+        "type": "earthquake",
+        "title": "M 0.8 - 22 km ESE of Anza, CA"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -116.46,
+          33.467,
+          2.42
+        ]
+      },
+      "id": "ci41340999"
+    }
+  ],
+  "bbox": [
+    -178.8065,
+    -63.5619,
+    -1.13,
+    171.414,
+    65.876,
+    178.025
+  ]
+}
