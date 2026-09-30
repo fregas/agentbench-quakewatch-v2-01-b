@@ -129,9 +129,7 @@ class QuakeClient:
         events: list[Event] = []
         for name in sources:
             # A stable window key reuses responses even though FDSN query times change.
-            data = self.cache.get(
-                f"v1:{name}:{window}", partial(self._fetch, name, window, now)
-            )
+            data = self.cache.get(f"v1:{name}:{window}", partial(self._fetch, name, window, now))
             events.extend(parse_events(data, name))
         return filter_events(
             events, start=start, end=now, min_mag=min_mag, near=near, radius_km=radius_km
