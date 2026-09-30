@@ -12,6 +12,7 @@ from rich.table import Table
 
 from .cache import ResponseCache
 from .client import QuakeClient
+from .compare import Comparison, compare_events
 from .export import export_events
 from .models import Event, QuakewatchError
 
@@ -66,16 +67,48 @@ def show_events(events: list[Event]) -> None:
     )
 
 
+def show_comparison(result: Comparison) -> None:
+    print(f"Matched: {len(result.matches)}")
+    print(f"Unmatched USGS: {len(result.unmatched_usgs)}")
+    print(f"Unmatched EMSC: {len(result.unmatched_emsc)}")
+    render(
+        [
+            "USGS ID",
+            "EMSC ID",
+            "Delta time (s)",
+            "Distance (km)",
+            "USGS mag",
+            "EMSC mag",
+            "Delta mag (USGS-EMSC)",
+        ],
+        [
+            [
+                match.usgs.id,
+                match.emsc.id,
+                f"{match.time_difference_s:.3f}",
+                f"{match.distance_km:.2f}",
+                "?" if match.usgs.magnitude is None else f"{match.usgs.magnitude:.2f}",
+                "?" if match.emsc.magnitude is None else f"{match.emsc.magnitude:.2f}",
+                "?" if match.magnitude_difference is None else f"{match.magnitude_difference:+.2f}",
+            ]
+            for match in result.matches
+        ],
+    )
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(
         prog="quakewatch", description="Recent USGS and EMSC earthquakes"
     )
     root.add_argument("--version", action="version", version="quakewatch 0.1.0")
     commands = root.add_subparsers(dest="command", required=True)
-    for command in ("list", "export"):
+    for command in ("list", "compare", "export"):
         sub = commands.add_parser(command)
         sub.add_argument("--window", choices=("hour", "day", "week"), default="day")
-        sub.add_argument("--source", choices=("usgs", "emsc", "both"), default="both")
+        if command != "compare":
+            sub.add_argument("--source", choices=("usgs", "emsc", "both"), default="both")
+        else:
+            sub.set_defaults(source="both")
         sub.add_argument("--min-mag", type=finite_float)
         sub.add_argument("--near", type=coordinates, metavar="LAT,LON")
         sub.add_argument("--radius-km", type=finite_float)
@@ -101,6 +134,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.command == "list":
             show_events(events)
+        elif args.command == "compare":
+            show_comparison(compare_events(events))
         else:
             export_events(events, args.output, args.format)
             print(f"Exported {len(events)} events to {args.output}")

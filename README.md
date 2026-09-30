@@ -20,6 +20,8 @@ Or install a downloaded release wheel with `.venv/bin/pip install ./quakewatch-0
 quakewatch list --window day
 quakewatch list --window week --min-mag 4 --source both
 quakewatch list --window hour --source usgs --near 37.77,-122.42 --radius-km 200
+quakewatch compare --window day
+quakewatch compare --window week --min-mag 4 --no-cache
 quakewatch export --window day --format csv --output earthquakes.csv
 quakewatch export --window week --min-mag 3 --format json -o earthquakes.json
 quakewatch export --window day --format geojson -o earthquakes.geojson
@@ -37,6 +39,21 @@ than silently returning a partial catalogue. Exports overwrite the specified fil
 GeoJSON uses `[longitude, latitude]` points with depth in the `depth_km` property;
 this avoids confusing depth in kilometers with GeoJSON altitude in meters.
 
+## Comparing catalogues
+
+`compare` always fetches both sources. Reports within **60 seconds (inclusive)**
+and **50 km (inclusive)** are candidate matches. Matching is one-to-one and
+maximizes the number of pairs; candidates prefer smaller time difference, then
+distance and ID for deterministic ties. Ambiguous dense sequences may have more
+than one valid assignment. This heuristic does not prove event identity or
+minimize the total time/distance across all pairs.
+
+Output includes matched-pair count, unmatched counts per source, each matched
+pair's time/distance separation, and signed magnitude difference **USGS − EMSC**.
+Unknown differences are `?`. Filters apply to each catalogue before matching;
+a magnitude threshold can therefore leave a pair unmatched when one source
+reports a lower magnitude. No matches yields zero counts plus column headings.
+
 ## Cache
 
 Responses are cached in `./.cache/quakewatch` for 300 seconds. Use
@@ -50,10 +67,12 @@ remain absent until TTL expiry. Corrupt entries are refetched and writes are ato
 
 ```python
 from pathlib import Path
-from quakewatch import QuakeClient, ResponseCache, export_events
+from quakewatch import QuakeClient, ResponseCache, compare_events, export_events
 
 client = QuakeClient(ResponseCache(ttl=60))
 events = client.events(window="day", source="both", min_mag=4)
+comparison = compare_events(events)
+print(len(comparison.matches))
 export_events(events, Path("earthquakes.geojson"), "geojson")
 ```
 

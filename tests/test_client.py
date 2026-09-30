@@ -128,3 +128,22 @@ def test_validation_before_network():
     ):
         with pytest.raises(ValueError):
             client.events(**kwargs)
+
+
+@pytest.mark.parametrize(
+    "timestamp,microsecond",
+    [
+        ("2026-09-30T12:00:00Z", 0),
+        ("2026-09-30T12:00:00.1Z", 100000),
+        ("2026-09-30T12:00:00.12Z", 120000),
+        ("2026-09-30T12:00:00.123Z", 123000),
+        ("2026-09-30T12:00:00.1234Z", 123400),
+        ("2026-09-30T12:00:00.123456Z", 123456),
+        ("2026-09-30T13:00:00.1+01:00", 100000),
+    ],
+)
+def test_emsc_fractional_seconds(fixtures, timestamp, microsecond):
+    data = copy.deepcopy(fixtures["emsc"])
+    data["features"][0]["properties"]["time"] = timestamp
+    event = parse_events(data, "emsc")[0]
+    assert event.time == datetime(2026, 9, 30, 12, microsecond=microsecond, tzinfo=timezone.utc)
