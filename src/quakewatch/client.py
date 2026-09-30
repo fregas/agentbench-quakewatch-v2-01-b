@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, Literal, cast
@@ -28,7 +29,14 @@ def parse_events(data: dict[str, Any], source: Source) -> list[Event]:
                 when = datetime.fromtimestamp(float(p["time"]) / 1000, tz=timezone.utc)
                 place = p.get("place") or "Unknown"
             else:
-                when = datetime.fromisoformat(p["time"].replace("Z", "+00:00"))
+                # Python 3.10 only accepts 3 or 6 fractional digits. EMSC may use 1.
+                timestamp = re.sub(
+                    r"\.(\d+)",
+                    lambda match: "." + match.group(1).ljust(6, "0")[:6],
+                    p["time"],
+                    count=1,
+                )
+                when = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
                 # FDSN times without a suffix are UTC by specification.
                 if when.tzinfo is None:
                     when = when.replace(tzinfo=timezone.utc)
